@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "fqrlcy2wgq25Ggz7FgTF78ej4uBUHih9RcGVIFz4Mqc=",
+  "Source": "WEPAPI_Microservice",
+  "BasePath": "_content/WEPAPI_Microservice",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
