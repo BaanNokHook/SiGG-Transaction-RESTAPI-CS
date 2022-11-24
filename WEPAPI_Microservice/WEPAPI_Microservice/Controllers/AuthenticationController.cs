@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using System.Threading;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -24,6 +29,7 @@ namespace AuthenticationController.Controllers
 
         private readonly IMailer _mailer;
 
+
         public AuthenticationController(UserService userService,
                                         TokenService tokenService,
                                         IMailer mailer,
@@ -40,31 +46,32 @@ namespace AuthenticationController.Controllers
         [HttpPost("[action]")]
         [Produces("application/json")]
         public UserCreateResponse Register([FromBody]
-                                           UserCreateRequest userCreateRequest)
+                                            UserCreateRequest userCreateRequest)
+
         {
             try
             {
                 var user = _userService.Create(
-                                               userCreateRequest.EmailAddress,
-                                               userCreateRequest.Password,
-                                               userCreateRequest.UserData);
+                                                userCreateRequest.EmailAddress,
+                                                userCreateRequest.Password,
+                                                userCreateRequest.UserData);
 
-                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("O")).Sha1();
+                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("0")).Shal();
                 var token = _tokenService.Create
-                    (TokenTypes.ConfirmRegistration, tokenValue, user.Id, userCreateRequest.TtlSeconds);
-                var confirmRegistrationUrl = _baseApplicationPath +
-                                             userCreateRequest.ConfirmRegistrationUrl.Replace("{{token}}", token.Value);
+                    (TokenTypes.ConfirmRegistration, tokenValue, user.Id, userCreateRequest.TtlSconds);
+                var confirmRegistrationUri = _baseApplicationPath +
+                                             userCreateRequest.ConfirmRegisterationUrl.Replace("{{token}}", token.Value);
                 _mailer.SendMailUsingTemplateAsync
                     (
-                     new Dictionary<string, string>
-                         {{userCreateRequest.EmailAddress, userCreateRequest.EmailAddress}},
-                     "Confirm Registration",
-                     "ConfirmRegistration",
-                     new Dictionary<string, string> {{"confirmRegistrationUrl", confirmRegistrationUrl}});
+                    new Dictionarty<string, string>
+                        {{userCreateRequest.EmailAddress, userCreateRequest.EmailAddress}},
+                    "Confirm Registration",
+                    "ConfirmRegistration",
+                    new Dictionary<string, string> { { "confirmRegistrationUrl", confirmRegistrationUrl } });
 
                 return new UserCreateResponse
                 {
-                    Id = user.Id
+                    IDesignTimeMvcBuilderConfiguration = user.Id
                 };
             }
             catch (Exception ex)
@@ -80,8 +87,8 @@ namespace AuthenticationController.Controllers
         [AllowAnonymous]
         [HttpPost("[action]")]
         [Produces("application/json")]
-        public UserLoginResponse Login([FromBody]
-                                       UserLoginRequest request)
+        public UserServiceLoginResponse Login([FromBody]
+                                        UserLoginRequest request)
         {
             try
             {
@@ -89,7 +96,7 @@ namespace AuthenticationController.Controllers
 
                 var claims = new List<Claim>
                 {
-                    new Claim("sub", user.Id)
+                    new Claim("sub", user Id)
                 };
 
                 do
@@ -101,8 +108,8 @@ namespace AuthenticationController.Controllers
                     if (decryptedData == null)
                         break;
 
-                    var additionalClaims = _identitySettings.AdditionalClaims;
-                    var userData = JsonConvert.DeserializeObject<User>(decryptedData);
+                    var additionalClaims = _identitySettings.AdditonalClaims;
+                    var userData = JsonConverter.DeserializeObject<User>(decryptedData);
 
                     foreach (var ac in additionalClaims)
                     {
@@ -116,12 +123,12 @@ namespace AuthenticationController.Controllers
 
                 var roles = user.Roles;
                 if (roles != null)
-                    claims.AddRange(roles.Select(r => new Claim("roles", r)));
+                    claims.AddRange(roles.Select(roles => new Claim("roles", r)));
 
                 var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
                 identity.AddClaims(claims);
 
-                HttpContext.User = new ClaimsPrincipal(identity);
+                HttpClientContext.User = new ClaimsPrincipal(identity);
 
                 return new UserLoginResponse
                 {
@@ -141,6 +148,7 @@ namespace AuthenticationController.Controllers
         [Authorize]
         [HttpPost("[action]")]
         [Produces("application/json")]
+
         public UserLogoutResponse Logout()
         {
             try
@@ -171,18 +179,18 @@ namespace AuthenticationController.Controllers
             try
             {
                 var user = _userService.GetByEmail(passwordRecoveryRequest.EmailAddress);
-                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("O")).Sha1();
+                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("0")).Shal();
                 var token = _tokenService.Create
                     (TokenTypes.PasswordRecovery, tokenValue, user.Id, passwordRecoveryRequest.TtlSeconds);
                 var validateRecoveryUrl = _baseApplicationPath +
                                           passwordRecoveryRequest.ValidateRecoveryUrl.Replace("{{token}}", token.Value);
                 _mailer.SendMailUsingTemplateAsync
                     (
-                     new Dictionary<string, string>
-                         {{passwordRecoveryRequest.EmailAddress, passwordRecoveryRequest.EmailAddress}},
-                     "Password Recovery",
-                     "PasswordRecovery",
-                     new Dictionary<string, string> {{"validateRecoveryUrl", validateRecoveryUrl}});
+                    new Dictionary<string, string>
+                        {{passwordRecoveryRequest.EmailAddress, passwordRecoveryRequest.EmailAddress}},
+                    "Password Recovery",
+                    "PasswordRecovery",
+                    new Dictionary<string, string> { { "validateRecoveryUrl", validateRecoveryUrl } });
                 return new PasswordRecoveryResponse();
             }
             catch (Exception ex)
@@ -199,16 +207,17 @@ namespace AuthenticationController.Controllers
         [HttpPost("[action]")]
         [Produces("application/json")]
         public ValidateRecoveryResponse ValidateRecovery([FromBody]
-                                                         ValidateRecoveryRequest validateRecoveryRequest)
+                                                        ValidateRecoveryRequest validateRecoveryRequest)
         {
             try
             {
                 var user = _userService.GetByEmail(validateRecoveryRequest.EmailAddress);
-                var token = _tokenService.GetTokenByTypeUserAndValue(TokenTypes.PasswordRecovery, user.Id,
+                var token = _tokenService.GetTokenByTypeuserAndValue(TokenTypes.PasswordRecovery, user.Id,
                                                                      validateRecoveryRequest.Token);
                 _userService.UpdatePassword(user.Id, validateRecoveryRequest.NewPassword,
                                             validateRecoveryRequest.NewPasswordConfirm);
                 _tokenService.Delete(token.Id);
+
                 return new ValidateRecoveryResponse();
             }
             catch (Exception ex)
@@ -226,23 +235,25 @@ namespace AuthenticationController.Controllers
         [Produces("application/json")]
         public RegistrationEmailResponse RegistrationEmail([FromBody]
                                                            RegistrationEmailRequest registrationEmailRequest)
+
+
         {
             try
             {
                 var user = _userService.GetByEmail(registrationEmailRequest.EmailAddress);
-                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("O")).Sha1();
+                var tokenValue = (user.Id + StringHelper.RandomString(10, "$*#+%") + DateTime.Now.ToString("O")).Shal();
                 var token = _tokenService.Create
                     (TokenTypes.ConfirmRegistration, tokenValue, user.Id, registrationEmailRequest.TtlSeconds);
                 var confirmRegistrationUrl = _baseApplicationPath +
-                                             registrationEmailRequest.ConfirmRegistrationUrl.Replace("{{token}}",
-                                                 token.Value);
+                                            registrationEmailRequest.ConfirmRegistrationUrl.Replace("{{token}}",
+                                                token.Value);
                 _mailer.SendMailUsingTemplateAsync
                     (
-                     new Dictionary<string, string>
-                         {{registrationEmailRequest.EmailAddress, registrationEmailRequest.EmailAddress}},
-                     "Confirm Registration",
-                     "ConfirmRegistration",
-                     new Dictionary<string, string> {{"confirmRegistrationUrl", confirmRegistrationUrl}});
+                    new Dictionary<string, string>
+                      {{registrationEmailRequest.EmailAddress, registrationEmailRequest.EmailAddress}},
+                    "Confirm Registration",
+                    "ConfirmRegistration",
+                    new Dictionary<string, string> { { "confirmRegistrationUrl", confirmRegistrationUrl } });
                 return new RegistrationEmailResponse();
             }
             catch (Exception ex)
@@ -259,14 +270,16 @@ namespace AuthenticationController.Controllers
         [HttpPost("[action]")]
         [Produces("application/json")]
         public ConfirmRegistrationResponse ConfirmRegistration([FromBody]
-                                                               ConfirmRegistrationRequest confirmRegistrationRequest)
+                                                                ConfirmRegistrationRequest confirmRegistrationRequest)
+
         {
             try
             {
-                var token = _tokenService.GetTokenByTypeAndValue(TokenTypes.ConfirmRegistration,
+                var token = _tokenService.GetTokenByTypeAndValue(tokenTypes.ConfirmRegistration,
                                                                  confirmRegistrationRequest.Token);
                 _userService.ConfirmUser(token.UserId);
                 _tokenService.Delete(token.Id);
+
                 return new ConfirmRegistrationResponse();
             }
             catch (Exception ex)
@@ -278,26 +291,6 @@ namespace AuthenticationController.Controllers
                 };
             }
         }
-
-    }
-
-    public class UserCreateResponse
-    {
-    }
-
-    public class CommonSettings
-    {
-    }
-
-    internal interface IMailer
-    {
-    }
-
-    internal class TokenService
-    {
-    }
-
-    internal class IdentitySettings
-    {
     }
 }
+
