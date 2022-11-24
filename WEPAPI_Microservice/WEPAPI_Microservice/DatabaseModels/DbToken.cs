@@ -5,6 +5,8 @@ namespace WEPAPI_Microservice.DatabaseModels
 {
     public class DbToken
     {
+        internal DateTime ExpiredAt;
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         [BsonElement("_id")]
