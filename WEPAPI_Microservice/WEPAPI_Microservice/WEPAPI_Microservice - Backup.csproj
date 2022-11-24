@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
-    <Compile Include="obj\Debug\net6.0\WEPAPI_Microservice.AssemblyInfo.cs" />
-    <Compile Include="obj\Debug\net6.0\WEPAPI_Microservice.GlobalUsings.g.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="bin\Debug\net6.0\appsettings.Development.json" />
     <Content Include="bin\Debug\net6.0\appsettings.json" />
     <Content Include="bin\Debug\net6.0\WEPAPI_Microservice.deps.json" />
@@ -24,13 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DatabaseModels\" />
     <Folder Include="Exceptions\" />
-<<<<<<< HEAD
-    <Folder Include="obj\Debug\net6.0\refint\" />
-    <Folder Include="obj\Debug\net6.0\ref\" />
-    <Folder Include="obj\Debug\net6.0\staticwebassets\" />
-=======
->>>>>>> 5345fa5cbba86e6b64e4c160bfef8968d01e4585
+    <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
     <Folder Include="Settings\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
@@ -43,9 +35,6 @@
     <None Include="bin\Debug\net6.0\WEPAPI_Microservice.dll" />
     <None Include="bin\Debug\net6.0\WEPAPI_Microservice.exe" />
     <None Include="bin\Debug\net6.0\WEPAPI_Microservice.pdb" />
-    <None Include="obj\Debug\net6.0\WEPAPI_Microservice.AssemblyInfoInputs.cache" />
-    <None Include="obj\Debug\net6.0\WEPAPI_Microservice.csproj.AssemblyReference.cache" />
-    <None Include="obj\Debug\net6.0\WEPAPI_Microservice.GeneratedMSBuildEditorConfig.editorconfig" />
   </ItemGroup>
 
 </Project>
