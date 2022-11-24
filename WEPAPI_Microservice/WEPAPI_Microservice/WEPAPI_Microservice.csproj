@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DatabaseModels\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
     <Folder Include="Settings\" />
