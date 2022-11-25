@@ -28,7 +28,6 @@
     <Folder Include="obj\Debug\net6.0\refint\" />
     <Folder Include="obj\Debug\net6.0\ref\" />
     <Folder Include="obj\Debug\net6.0\staticwebassets\" />
-    <Folder Include="Utilities\" />
   </ItemGroup>
 
   <ItemGroup>
