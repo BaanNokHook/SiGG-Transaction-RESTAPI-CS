@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using WEPAPI_Microservice.Services;
-
+using WEPAPI_Microservice.Settings;
 
 namespace WEPAPI_Microservice.Services
 {
@@ -10,7 +10,9 @@ namespace WEPAPI_Microservice.Services
     {
         private readonly byte[] _aesKey;
 
-        private readonly byte[] _aesIv;  
+        private readonly byte[] _aesIv;
+        private object EncodingHelper;
+        private object AesHelper;
 
         public DatabaseEncryptionService(IEncryptionSettings encryptionSettings)
         {
