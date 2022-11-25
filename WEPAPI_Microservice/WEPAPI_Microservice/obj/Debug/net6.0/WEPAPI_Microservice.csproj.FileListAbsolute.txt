@@ -1,0 +1,7 @@
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.csproj.AssemblyReference.cache
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.GeneratedMSBuildEditorConfig.editorconfig
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.AssemblyInfoInputs.cache
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.AssemblyInfo.cs
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.csproj.CoreCompileInputs.cache
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.MvcApplicationPartsAssemblyInfo.cs
+D:\LaCasaDePapel\SiGG\SiGG-Transaction-RESTAPI-CS\WEPAPI_Microservice\WEPAPI_Microservice\obj\Debug\net6.0\WEPAPI_Microservice.MvcApplicationPartsAssemblyInfo.cache
