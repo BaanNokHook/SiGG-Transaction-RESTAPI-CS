@@ -28,6 +28,8 @@
     <Folder Include="Encryption\" />
     <Folder Include="Enums\" />
     <Folder Include="Extensions\" />
+    <Folder Include="HttpModels\Authentication\" />
+    <Folder Include="HttpModels\Authorization\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="obj\Debug\net6.0\refint\" />
